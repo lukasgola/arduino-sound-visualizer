@@ -6,13 +6,28 @@ int sensorValue = 0;
 float voltage;
 float dB;
 
+
+#define REDPIN 5
+#define GREENPIN 6
+#define BLUEPIN 3
+ 
+#define FADESPEED 20
+
 void setup() {
   Serial.begin(9600);
   pinMode(ledPin, OUTPUT);
   pinMode(soundSensorPin, INPUT);
+
+  pinMode(REDPIN, OUTPUT);
+  pinMode(GREENPIN, OUTPUT);
+  pinMode(BLUEPIN, OUTPUT);
+
 }
 
 void loop() {
+
+  int g = 100;
+
   sensorValue = analogRead(soundSensorPin);
   voltage = sensorValue * (5.0 / 1023.0); // Convert analog value to voltage (assuming 5V Arduino)
 
@@ -30,11 +45,14 @@ void loop() {
   Serial.println(dB);
 
   // Control LED based on the dB value
-  if (dB > 26) {
+  if (dB > 63) {
     digitalWrite(ledPin, HIGH);
+    analogWrite(GREENPIN, 255);
   } else {
     digitalWrite(ledPin, LOW);
+    analogWrite(GREENPIN, 0);
   }
 
   delay(50); // Adjust delay as needed
+
 }
